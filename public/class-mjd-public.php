@@ -52,6 +52,10 @@ class Mjd_Public {
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
 
+		require_once dirname( __FILE__ ) . '/class-mjd-frontend.php';
+		//[monthly_jubilee_displayer]
+		add_shortcode( 'monthly_jubilee_displayer', [new Mjd_Frontend, 'display_frontend'] );
+
 	}
 
 	/**

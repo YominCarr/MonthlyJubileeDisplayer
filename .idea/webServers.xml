@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="d7b7a2ef-73bb-4f58-a2a3-5bb6fdbe18c7" name="MonthlyJubileeDisplayer" url="http://localhost/wordpress">
+        <fileTransfer port="0" mountedRoot="C:\xampp\htdocs\wordpress\wp-content\plugins" accessType="MOUNT" />
+      </webServer>
+    </option>
+  </component>
+</project>
