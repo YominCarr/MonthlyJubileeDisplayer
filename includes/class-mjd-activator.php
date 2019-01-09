@@ -1,5 +1,7 @@
 <?php
 
+require_once dirname( __FILE__ ) . '/class-mjd-table.php';
+
 /**
  * Fired during plugin activation
  *
@@ -30,7 +32,8 @@ class Mjd_Activator {
 	 * @since    1.0.0
 	 */
 	public static function activate() {
-
+		$table = new MjdTable();
+		$table->install();
 	}
 
 }
