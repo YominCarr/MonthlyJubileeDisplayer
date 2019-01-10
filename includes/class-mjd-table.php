@@ -19,6 +19,7 @@ class MjdTable {
 		$sql = "CREATE TABLE " . $this->getTableName() . " (
 				id INT(11) NOT NULL AUTO_INCREMENT,
 				name VARCHAR(50) NOT NULL,
+				gender VARCHAR(1) NOT NULL,
 				birthday DATE NOT NULL,
  				PRIMARY KEY  (id)
  				) $charset_collate;";
@@ -43,24 +44,91 @@ class MjdTable {
 		$wpdb->insert(
 			$this->getTableName(),
 			array(
-				'name' => "Max Mustermann",
+				'name'     => "Max Mustermann",
+				'gender'   => "m",
 				'birthday' => "2013-04-03",
 			)
 		);
 		$wpdb->insert(
 			$this->getTableName(),
 			array(
-				'name' => "Mrs Wordpress",
-				'birthday' => "2011-02-01",
+				'name'     => "Mrs Wordpress",
+				'gender'   => "f",
+				'birthday' => "2011-01-01",
+			)
+		);
+		$wpdb->insert(
+			$this->getTableName(),
+			array(
+				'name'     => "Mrs Wordpress Jr.",
+				'gender'   => "f",
+				'birthday' => "2000-01-20",
+			)
+		);
+		$wpdb->insert(
+			$this->getTableName(),
+			array(
+				'name'     => "Mrs Wordpress Jr. Jr.",
+				'gender'   => "f",
+				'birthday' => "2018-01-01",
+			)
+		);
+		$wpdb->insert(
+			$this->getTableName(),
+			array(
+				'name'     => "Mr Wordpress",
+				'gender'   => "f",
+				'birthday' => "1950-01-31",
 			)
 		);
 	}
 
-	public function plainSelectAllData() {
+	public function getBirthdayHTML() {
+		$data = $this->plainSelectAllDataForCurrentMonth();
+		$html = "";
+
+		foreach ($data as $dataRow) {
+			$html .= $this->getBirthdayText($dataRow) . "<br>";
+		}
+
+		return $html;
+	}
+
+	// @todo birthdays selected in the future have a year to small by one because it is rounding down
+	// @todo select only day for birthday
+	private function plainSelectAllDataForCurrentMonth() {
 		global $wpdb;
 
-		$sql = "SELECT * FROM " . $this->getTableName() . ";";
+		$sql = "SELECT name,
+				gender,
+				DAY(birthday) as birthday,
+				TIMESTAMPDIFF(YEAR, birthday, LAST_DAY(NOW())) AS age
+ 				FROM " . $this->getTableName() . "
+ 				WHERE MONTH(birthday) = MONTH(NOW());";
+
 		return $wpdb->get_results( $sql, ARRAY_A );
+	}
+
+	private function getBirthdayText( $dataRow ) {
+		$name = $dataRow["name"];
+		$age  = $dataRow["age"];
+		$birthday = $dataRow["birthday"];
+
+		if ( $dataRow["gender"] == "f" ) {
+			return $this->getBirthdayTextFemale( $name, $age, $birthday );
+		} else {
+			return $this->getBirthdayTextMale( $name, $age, $birthday );
+		}
+	}
+
+	// @todo those in the future need another grammar (will turn)
+	// @todo i18n or config option in admin interface
+	private function getBirthdayTextMale( $name, $age, $birthday ) {
+		return "Congratulations $name! He turned $age at the $birthday this month.";
+	}
+
+	public function getBirthdayTextFemale( $name, $age, $birthday ) {
+		return "Congratulations $name! She turned $age at the $birthday this month.";
 	}
 
 }
