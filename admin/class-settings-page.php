@@ -74,9 +74,17 @@ class SettingsPage {
 		);
 
 		add_settings_field(
-			'textblock',
-			'Text to display',
-			array( $this, 'text_callback' ),
+			'textblock_m',
+			'Text to display for male',
+			array( $this, 'text_m_callback' ),
+			'my-setting-admin',
+			'setting_section_text'
+		);
+
+		add_settings_field(
+			'textblock_f',
+			'Text to display for female',
+			array( $this, 'text_f_callback' ),
 			'my-setting-admin',
 			'setting_section_text'
 		);
@@ -90,11 +98,16 @@ class SettingsPage {
 	public function sanitize( $input )
 	{
 		$new_input = array();
-		if( isset( $input['min_age'] ) )
+		if( isset( $input['min_age'] ) ) {
 			$new_input['min_age'] = absint( $input['min_age'] );
+		}
 
-		if( isset( $input['textblock'] ) )
-			$new_input['textblock'] = sanitize_text_field( $input['textblock'] );
+		if( isset( $input['textblock_m'] ) ) {
+			$new_input['textblock_m'] = sanitize_text_field( $input['textblock_m'] );
+		}
+		if( isset( $input['textblock_f'] ) ) {
+			$new_input['textblock_f'] = sanitize_text_field( $input['textblock_f'] );
+		}
 
 		return $new_input;
 	}
@@ -110,9 +123,6 @@ class SettingsPage {
 			   Following identifiers are replaced by their according values: %name%, %birthday%, %day%, %age%:';
 	}
 
-	/**
-	 * Get the settings option array and print one of its values
-	 */
 	public function min_age_callback()
 	{
 		printf(
@@ -121,14 +131,19 @@ class SettingsPage {
 		);
 	}
 
-	/**
-	 * Get the settings option array and print one of its values
-	 */
-	public function text_callback()
+	public function text_m_callback()
 	{
 		printf(
-			'<textarea id="textblock" name="jubilee_options[textblock]" cols="150" rows="3">%s</textarea>',
-			isset( $this->options['textblock'] ) ? esc_attr( $this->options['textblock']) : ''
+			'<textarea id="textblock_m" name="jubilee_options[textblock_m]" cols="150" rows="3">%s</textarea>',
+			isset( $this->options['textblock_m'] ) ? esc_attr( $this->options['textblock_m']) : ''
+		);
+	}
+	
+	public function text_f_callback()
+	{
+		printf(
+			'<textarea id="textblock_f" name="jubilee_options[textblock_f]" cols="150" rows="3">%s</textarea>',
+			isset( $this->options['textblock_f'] ) ? esc_attr( $this->options['textblock_f']) : ''
 		);
 	}
 

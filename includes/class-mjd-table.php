@@ -77,7 +77,7 @@ class MjdTable {
 			$this->getTableName(),
 			array(
 				'name'     => "Mr Wordpress",
-				'gender'   => "f",
+				'gender'   => "m",
 				'birthday' => "1950-01-31",
 			)
 		);
@@ -124,7 +124,13 @@ class MjdTable {
 		$day = $dataRow["day"];
 
 		$options = get_option('jubilee_options');
-		$textblock = $options['textblock'];
+
+		if ( $dataRow["gender"] == "f" ) {
+			$textblock = $options['textblock_f'];
+		} else {
+			$textblock = $options['textblock_m'];
+		}
+
 		if (empty($textblock)) {
 			$textblock = 'Congratulations %name% for turning %age% this month on the %birthday%!';
 		}
@@ -135,22 +141,6 @@ class MjdTable {
 		$text = str_replace("%day%", $day, $text);
 
 		return $text;
-
-		/*if ( $dataRow["gender"] == "f" ) {
-			return $this->getBirthdayTextFemale( $name, $age, $day );
-		} else {
-			return $this->getBirthdayTextMale( $name, $age, $day );
-		}*/
-	}
-
-	// @todo those in the future need another grammar (will turn)
-	// @todo i18n or config option in admin interface
-	private function getBirthdayTextMale( $name, $age, $birthday ) {
-		return "Congratulations $name! He turned $age at the $birthday this month.";
-	}
-
-	public function getBirthdayTextFemale( $name, $age, $birthday ) {
-		return "Congratulations $name! She turned $age at the $birthday this month.";
 	}
 
 }
