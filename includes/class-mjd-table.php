@@ -125,6 +125,9 @@ class MjdTable {
 
 		$options = get_option('jubilee_options');
 		$textblock = $options['textblock'];
+		if (empty($textblock)) {
+			$textblock = 'Congratulations %name% for turning %age% this month on the %birthday%!';
+		}
 
 		$text = str_replace("%name%", $name, $textblock);
 		$text = str_replace("%age%", $age, $text);
