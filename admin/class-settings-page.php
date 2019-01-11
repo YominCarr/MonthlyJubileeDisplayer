@@ -14,7 +14,7 @@ class SettingsPage {
 			'MonthlyJubileeDisplayer Plugin Settings',
 			'MonthlyJubileeDisplayer Settings',
 			'manage_options',
-			__FILE__,
+			'my-setting-admin',
 			array( $this, 'create_admin_page' )
 		);
 	}
@@ -28,7 +28,7 @@ class SettingsPage {
 		?>
 		<div class="wrap">
 			<h1>MonthlyJubileeDisplayer Plugin Settings</h1>
-			<form method="post" action="<?php echo __FILE__; ?>">
+			<form method="post" action="options.php">
 				<?php
 				// This prints out all hidden setting fields
 				settings_fields( 'jubilee_options_group' );
@@ -90,11 +90,11 @@ class SettingsPage {
 	public function sanitize( $input )
 	{
 		$new_input = array();
-		if( isset( $input['id_number'] ) )
-			$new_input['id_number'] = absint( $input['id_number'] );
+		if( isset( $input['min_age'] ) )
+			$new_input['min_age'] = absint( $input['min_age'] );
 
-		if( isset( $input['title'] ) )
-			$new_input['title'] = sanitize_text_field( $input['title'] );
+		if( isset( $input['textblock'] ) )
+			$new_input['textblock'] = sanitize_text_field( $input['textblock'] );
 
 		return $new_input;
 	}
