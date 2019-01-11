@@ -99,12 +99,20 @@ class MjdTable {
 	private function plainSelectAllDataForCurrentMonth() {
 		global $wpdb;
 
+		$options = get_option('jubilee_options');
+		$min_age = $options['min_age'];
+		if (empty($min_age)) {
+			$min_age = 0;
+		}
+
 		$sql = "SELECT name,
 				gender,
-				DAY(birthday) as birthday,
+				birthday,
+				DAY(birthday) as day,
 				TIMESTAMPDIFF(YEAR, birthday, LAST_DAY(NOW())) AS age
  				FROM " . $this->getTableName() . "
- 				WHERE MONTH(birthday) = MONTH(NOW());";
+ 				WHERE MONTH(birthday) = MONTH(NOW())
+				HAVING age > $min_age;";
 
 		return $wpdb->get_results( $sql, ARRAY_A );
 	}
@@ -113,12 +121,23 @@ class MjdTable {
 		$name = $dataRow["name"];
 		$age  = $dataRow["age"];
 		$birthday = $dataRow["birthday"];
+		$day = $dataRow["day"];
 
-		if ( $dataRow["gender"] == "f" ) {
-			return $this->getBirthdayTextFemale( $name, $age, $birthday );
+		$options = get_option('jubilee_options');
+		$textblock = $options['textblock'];
+
+		$text = str_replace("%name%", $name, $textblock);
+		$text = str_replace("%age%", $age, $text);
+		$text = str_replace("%birthday%", $birthday, $text);
+		$text = str_replace("%day%", $day, $text);
+
+		return $text;
+
+		/*if ( $dataRow["gender"] == "f" ) {
+			return $this->getBirthdayTextFemale( $name, $age, $day );
 		} else {
-			return $this->getBirthdayTextMale( $name, $age, $birthday );
-		}
+			return $this->getBirthdayTextMale( $name, $age, $day );
+		}*/
 	}
 
 	// @todo those in the future need another grammar (will turn)
