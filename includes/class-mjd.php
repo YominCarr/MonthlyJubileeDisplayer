@@ -13,6 +13,8 @@
  * @subpackage Mjd/includes
  */
 
+require_once dirname( __FILE__ ) . '/../admin/class-settings-page.php';
+
 /**
  * The core plugin class.
  *
@@ -156,8 +158,11 @@ class Mjd {
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
-		$this->loader->add_action( 'admin_menu', $plugin_admin, 'create_plugin_page' );
-		$this->loader->add_action( 'admin_init', $plugin_admin, 'page_init' );
+
+		$admin_settings = new SettingsPage();
+
+		$this->loader->add_action( 'admin_menu', $admin_settings, 'create_plugin_page' );
+		$this->loader->add_action( 'admin_init', $admin_settings, 'page_init' );
 
 	}
 
