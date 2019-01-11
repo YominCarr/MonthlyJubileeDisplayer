@@ -118,14 +118,14 @@ class Mjd_Admin {
 	 */
 	public function create_admin_page() {
 		// Set class property
-		$this->options = get_option( 'my_option_name' );
+		$this->options = get_option( 'jubilee_options' );
 		?>
 		<div class="wrap">
 			<h1>MonthlyJubileeDisplayer Plugin Settings</h1>
 			<form method="post" action="<?php echo __FILE__; ?>">
 				<?php
 				// This prints out all hidden setting fields
-				settings_fields( 'my_option_group' );
+				settings_fields( 'jubilee_options_group' );
 				do_settings_sections( 'my-setting-admin' );
 				submit_button();
 				?>
@@ -140,32 +140,39 @@ class Mjd_Admin {
 	public function page_init()
 	{
 		register_setting(
-			'my_option_group', // Option group
-			'my_option_name', // Option name
-			array( $this, 'sanitize' ) // Sanitize
+			'jubilee_options_group',
+			'jubilee_options',
+			array( $this, 'sanitize' )
 		);
 
 		add_settings_section(
-			'setting_section_id', // ID
-			'My Custom Settings', // Title
-			array( $this, 'print_section_info' ), // Callback
-			'my-setting-admin' // Page
+			'setting_section_query',
+			'Query options',
+			array( $this, 'print_section_info' ),
+			'my-setting-admin'
 		);
 
 		add_settings_field(
-			'id_number', // ID
-			'ID Number', // Title
-			array( $this, 'id_number_callback' ), // Callback
-			'my-setting-admin', // Page
-			'setting_section_id' // Section
-		);
-
-		add_settings_field(
-			'title',
-			'Title',
-			array( $this, 'title_callback' ),
+			'min_age',
+			'Minimum Age',
+			array( $this, 'min_age_callback' ),
 			'my-setting-admin',
-			'setting_section_id'
+			'setting_section_query'
+		);
+
+		add_settings_section(
+			'setting_section_text',
+			'Textblocks for display',
+			array( $this, 'print_section_info' ),
+			'my-setting-admin'
+		);
+
+		add_settings_field(
+			'textblock',
+			'Text to display',
+			array( $this, 'text_callback' ),
+			'my-setting-admin',
+			'setting_section_text'
 		);
 	}
 
@@ -197,22 +204,22 @@ class Mjd_Admin {
 	/**
 	 * Get the settings option array and print one of its values
 	 */
-	public function id_number_callback()
+	public function min_age_callback()
 	{
 		printf(
-			'<input type="text" id="id_number" name="my_option_name[id_number]" value="%s" />',
-			isset( $this->options['id_number'] ) ? esc_attr( $this->options['id_number']) : ''
+			'<input type="text" id="min_age" name="jubilee_options[min_age]" value="%s" />',
+			isset( $this->options['min_age'] ) ? esc_attr( $this->options['min_age']) : ''
 		);
 	}
 
 	/**
 	 * Get the settings option array and print one of its values
 	 */
-	public function title_callback()
+	public function text_callback()
 	{
 		printf(
-			'<input type="text" id="title" name="my_option_name[title]" value="%s" />',
-			isset( $this->options['title'] ) ? esc_attr( $this->options['title']) : ''
+			'<input type="text" id="textblock" name="jubilee_options[textblock]" value="%s" />',
+			isset( $this->options['textblock'] ) ? esc_attr( $this->options['textblock']) : ''
 		);
 	}
 
