@@ -54,7 +54,7 @@ class SettingsPage {
 		add_settings_section(
 			'setting_section_query',
 			'Query options',
-			array( $this, 'print_section_info' ),
+			array( $this, 'print_query_info' ),
 			'my-setting-admin'
 		);
 
@@ -69,7 +69,7 @@ class SettingsPage {
 		add_settings_section(
 			'setting_section_text',
 			'Textblocks for display',
-			array( $this, 'print_section_info' ),
+			array( $this, 'print_textblock_info' ),
 			'my-setting-admin'
 		);
 
@@ -99,12 +99,15 @@ class SettingsPage {
 		return $new_input;
 	}
 
-	/**
-	 * Print the Section text
-	 */
-	public function print_section_info()
+	public function print_query_info()
 	{
-		print 'Enter your settings below:';
+		print 'These options configure which birthday entries are queried:';
+	}
+
+	public function print_textblock_info()
+	{
+		print 'These options configure the textblocks which are output in the frontend for each jubilee.<br>
+			   Following identifiers are replaced by their according values: %name%, %birthday%, %day%, %age%:';
 	}
 
 	/**
@@ -124,7 +127,7 @@ class SettingsPage {
 	public function text_callback()
 	{
 		printf(
-			'<input type="text" id="textblock" name="jubilee_options[textblock]" value="%s" />',
+			'<textarea id="textblock" name="jubilee_options[textblock]" cols="150" rows="3">%s</textarea>',
 			isset( $this->options['textblock'] ) ? esc_attr( $this->options['textblock']) : ''
 		);
 	}
