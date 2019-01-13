@@ -127,8 +127,15 @@ class Mjd_Admin {
 				echo "Inserting new $name, $gender, $birthday, $residence";
 			} else if(substr($action, 0, 6) == "delete") {
 				$id = substr($action, 6, strlen($action));
-				echo "Deleting $id";
-				// @todo delete
+
+				$ret = $table->removeEntry($id);
+
+				if ($ret) {
+					$response = "Entry $id removed successfully";
+				} else {
+					$response = "Error removed entry $id";
+				}
+				echo "<div id='jubileeResponse'>$response</div><br/><br/>";
 			}
 		}
 

@@ -203,4 +203,10 @@ class MjdTable {
 		return $wpdb->get_results( $sql, ARRAY_A );
 	}
 
+	public function removeEntry($id) {
+		global $wpdb;
+
+		return $wpdb->delete($this->getTableName(), array( 'id' => $id), array( '%d' )  );
+	}
+
 }

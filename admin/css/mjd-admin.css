@@ -11,3 +11,8 @@
 #jubileeAdminTable td {
     padding: 3px 10px;
 }
+
+#jubileeResponse {
+    font-size: large;
+    font-weight: bold;
+}
