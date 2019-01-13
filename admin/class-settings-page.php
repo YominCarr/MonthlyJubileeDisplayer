@@ -120,7 +120,7 @@ class SettingsPage {
 	public function print_textblock_info()
 	{
 		print 'These options configure the textblocks which are output in the frontend for each jubilee.<br>
-			   Following identifiers are replaced by their according values: %name%, %birthday%, %day%, %age%:';
+			   Following identifiers are replaced by their according values: %name%, %birthday%, %day%, %age%, %residence%:';
 	}
 
 	public function min_age_callback()

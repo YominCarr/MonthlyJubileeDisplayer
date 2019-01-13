@@ -21,6 +21,7 @@ class MjdTable {
 				name VARCHAR(50) NOT NULL,
 				gender VARCHAR(1) NOT NULL,
 				birthday DATE NOT NULL,
+				residence VARCHAR(100) NOT NULL,
  				PRIMARY KEY  (id)
  				) $charset_collate;";
 
@@ -47,6 +48,7 @@ class MjdTable {
 				'name'     => "Max Mustermann",
 				'gender'   => "m",
 				'birthday' => "2013-04-03",
+				'residence' => "Somewhere",
 			)
 		);
 		$wpdb->insert(
@@ -55,6 +57,7 @@ class MjdTable {
 				'name'     => "Mrs Wordpress",
 				'gender'   => "f",
 				'birthday' => "2011-01-01",
+				'residence' => "Somewhere",
 			)
 		);
 		$wpdb->insert(
@@ -63,6 +66,7 @@ class MjdTable {
 				'name'     => "Mrs Wordpress Jr.",
 				'gender'   => "f",
 				'birthday' => "2000-01-20",
+				'residence' => "Somewhere",
 			)
 		);
 		$wpdb->insert(
@@ -71,6 +75,7 @@ class MjdTable {
 				'name'     => "Mrs Wordpress Jr. Jr.",
 				'gender'   => "f",
 				'birthday' => "2018-01-01",
+				'residence' => "Somewhere",
 			)
 		);
 		$wpdb->insert(
@@ -79,6 +84,7 @@ class MjdTable {
 				'name'     => "Mr Wordpress",
 				'gender'   => "m",
 				'birthday' => "1950-01-31",
+				'residence' => "Somewhere",
 			)
 		);
 	}
@@ -109,7 +115,8 @@ class MjdTable {
 				gender,
 				birthday,
 				DAY(birthday) as day,
-				TIMESTAMPDIFF(YEAR, birthday, LAST_DAY(NOW())) AS age
+				TIMESTAMPDIFF(YEAR, birthday, LAST_DAY(NOW())) AS age,
+				residence
  				FROM " . $this->getTableName() . "
  				WHERE MONTH(birthday) = MONTH(NOW())
 				HAVING age > $min_age;";
@@ -122,6 +129,7 @@ class MjdTable {
 		$age  = $dataRow["age"];
 		$birthday = $dataRow["birthday"];
 		$day = $dataRow["day"];
+		$residence = $dataRow["residence"];
 
 		$options = get_option('jubilee_options');
 
@@ -132,13 +140,14 @@ class MjdTable {
 		}
 
 		if (empty($textblock)) {
-			$textblock = 'Congratulations %name% for turning %age% this month on the %birthday%!';
+			$textblock = 'Congratulations %name% from %residence% for turning %age% this month on the %birthday%!';
 		}
 
 		$text = str_replace("%name%", $name, $textblock);
 		$text = str_replace("%age%", $age, $text);
 		$text = str_replace("%birthday%", $birthday, $text);
 		$text = str_replace("%day%", $day, $text);
+		$text = str_replace("%residence%", $residence, $text);
 
 		return $text;
 	}
