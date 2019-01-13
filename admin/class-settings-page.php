@@ -12,17 +12,17 @@ class SettingsPage {
 	public function create_plugin_page() {
 		add_options_page(
 			'MonthlyJubileeDisplayer Plugin Settings',
-			'MonthlyJubileeDisplayer Settings',
+			'Jubilee Settings',
 			'manage_options',
 			'my-setting-admin',
-			array( $this, 'create_admin_page' )
+			array( $this, 'create_options_page' )
 		);
 	}
 
 	/**
 	 * Options page callback
 	 */
-	public function create_admin_page() {
+	public function create_options_page() {
 		// Set class property
 		$this->options = get_option( 'jubilee_options' );
 		?>
