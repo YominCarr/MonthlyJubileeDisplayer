@@ -1,4 +1,13 @@
-/**
- * All of the CSS for your admin-specific functionality should be
- * included in this file.
- */
+#jubileeAdminTable {
+    background-color: #10081e;
+}
+
+#jubileeAdminTable tbody {
+    background-color: #fff;
+    height: 150px;
+    overflow: auto;
+}
+
+#jubileeAdminTable td {
+    padding: 3px 10px;
+}

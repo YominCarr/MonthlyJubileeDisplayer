@@ -150,4 +150,31 @@ class MjdTable {
 		return $text;
 	}
 
+	public function getStoredDataAsHTMLTable() {
+		$html = "<table id='jubileeAdminTable'>";
+		$html .= "<tr><th>Name</th><th>Gender</th><th>Birthday</th><th>Residence</th></tr>";
+
+		$data = $this->plainSelectStoredData();
+		foreach($data as $dataRow) {
+			$html .= "<tr>";
+			$html .= "<td>" . $dataRow["name"] . "</td>";
+			$html .= "<td>" . $dataRow["gender"] . "</td>";
+			$html .= "<td>" . $dataRow["birthday"] . "</td>";
+			$html .= "<td>" . $dataRow["residence"] . "</td>";
+			$html .= "</tr>";
+		}
+
+		$html .= "</table>";
+
+		return $html;
+	}
+
+	private function plainSelectStoredData() {
+		global $wpdb;
+
+		$sql = "SELECT * FROM " . $this->getTableName() . ";";
+
+		return $wpdb->get_results( $sql, ARRAY_A );
+	}
+
 }

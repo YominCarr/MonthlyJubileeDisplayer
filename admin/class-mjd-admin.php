@@ -10,6 +10,8 @@
  * @subpackage Mjd/admin
  */
 
+require_once dirname( __FILE__ ) . '/../includes/class-mjd-table.php';
+
 /**
  * The admin-specific functionality of the plugin.
  *
@@ -112,6 +114,9 @@ class Mjd_Admin {
 	}
 
 	public function create_admin_page() {
+		$table = new MjdTable();
+
+		echo $table->getStoredDataAsHTMLTable();
 
 	}
 
