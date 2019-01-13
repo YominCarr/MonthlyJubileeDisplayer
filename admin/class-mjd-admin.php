@@ -116,6 +116,22 @@ class Mjd_Admin {
 	public function create_admin_page() {
 		$table = new MjdTable();
 
+		$action = filter_input(INPUT_POST, "action", FILTER_SANITIZE_STRING);
+		if (!empty($action)) {
+			if ($action == "insert") {
+				$name = filter_input(INPUT_POST, "name", FILTER_SANITIZE_STRING);
+				$gender = filter_input(INPUT_POST, "gender", FILTER_SANITIZE_STRING);
+				$birthday = filter_input(INPUT_POST, "birthday", FILTER_SANITIZE_STRING);
+				$residence = filter_input(INPUT_POST, "residence", FILTER_SANITIZE_STRING);
+				// @todo insert new person
+				echo "Inserting new $name, $gender, $birthday, $residence";
+			} else if(substr($action, 0, 6) == "delete") {
+				$id = substr($action, 6, strlen($action));
+				echo "Deleting $id";
+				// @todo delete
+			}
+		}
+
 		echo $table->getStoredDataAsHTMLTableWithControls();
 
 	}

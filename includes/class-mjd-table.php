@@ -157,7 +157,8 @@ class MjdTable {
 	public function getStoredDataAsHTMLTableWithControls() {
 		$data = $this->plainSelectStoredData();
 
-		$html = "<table id='jubileeAdminTable'>";
+		$html = "<form method=\"post\" action=\"#\">";
+		$html .= "<table id='jubileeAdminTable'>";
 		$html .= "<tr><th>Name</th><th>Gender</th><th>Birthday</th><th>Residence</th></tr>";
 
 		foreach($data as $dataRow) {
@@ -166,19 +167,19 @@ class MjdTable {
 			$html .= "<td>" . $dataRow["gender"] . "</td>";
 			$html .= "<td>" . $dataRow["birthday"] . "</td>";
 			$html .= "<td>" . $dataRow["residence"] . "</td>";
-			$html .= "<td><input type='button' class='button button-primary' value='Delete' /></td>";
+			$html .= "<td><button type='submit' name='action' class='button button-primary' value='delete" . $dataRow["id"] . "'>Delete</button></td>";
 			$html .= "</tr>";
 		}
 
 		$html .= "<tr>";
-		$html .= "<td><input type='text' id='jubileeNewName' /></td>";
-		$html .= "<td><select id='jubileeNewGender'><option>m</option><option>f</option></select></td>";
-		$html .= "<td><input type='date' id='jubileeNewBirthday' /></td>";
-		$html .= "<td><input type='text' id='jubileeNewResidence' /></td>";
-		$html .= "<td><input type='button' class='button button-primary' value='Insert' /></td>";
+		$html .= "<td><input type='text' name='name' /></td>";
+		$html .= "<td><select name='gender'><option>m</option><option>f</option></select></td>";
+		$html .= "<td><input type='date' name='birthday' /></td>";
+		$html .= "<td><input type='text' name='residence' /></td>";
+		$html .= "<td><button type='submit' name='action' class='button button-primary' value='insert'>Insert</button></td>";
 		$html .= "</tr>";
 
-		$html .= "</table>";
+		$html .= "</table></form>";
 
 		return $html;
 	}
