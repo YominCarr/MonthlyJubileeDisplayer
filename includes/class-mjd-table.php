@@ -166,7 +166,7 @@ class MjdTable {
 			$html .= "<td>" . $dataRow["gender"] . "</td>";
 			$html .= "<td>" . $dataRow["birthday"] . "</td>";
 			$html .= "<td>" . $dataRow["residence"] . "</td>";
-			$html .= "<td><input type='button' value='Delete' /></td>";
+			$html .= "<td><input type='button' class='button button-primary' value='Delete' /></td>";
 			$html .= "</tr>";
 		}
 
@@ -175,7 +175,7 @@ class MjdTable {
 		$html .= "<td><select id='jubileeNewGender'><option>m</option><option>f</option></select></td>";
 		$html .= "<td><input type='date' id='jubileeNewBirthday' /></td>";
 		$html .= "<td><input type='text' id='jubileeNewResidence' /></td>";
-		$html .= "<td><input type='button' value='Insert' /></td>";
+		$html .= "<td><input type='button' class='button button-primary' value='Insert' /></td>";
 		$html .= "</tr>";
 
 		$html .= "</table>";
