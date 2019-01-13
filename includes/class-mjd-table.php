@@ -156,7 +156,7 @@ class MjdTable {
 
 		$data = $this->plainSelectStoredData();
 		foreach($data as $dataRow) {
-			$html .= "<tr>";
+			$html .= "<tr id='" . $dataRow["id"] . "'>";
 			$html .= "<td>" . $dataRow["name"] . "</td>";
 			$html .= "<td>" . $dataRow["gender"] . "</td>";
 			$html .= "<td>" . $dataRow["birthday"] . "</td>";
