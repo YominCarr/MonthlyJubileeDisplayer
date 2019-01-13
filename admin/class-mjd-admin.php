@@ -116,31 +116,46 @@ class Mjd_Admin {
 	public function create_admin_page() {
 		$table = new MjdTable();
 
-		$action = filter_input(INPUT_POST, "action", FILTER_SANITIZE_STRING);
-		if (!empty($action)) {
-			if ($action == "insert") {
-				$name = filter_input(INPUT_POST, "name", FILTER_SANITIZE_STRING);
-				$gender = filter_input(INPUT_POST, "gender", FILTER_SANITIZE_STRING);
-				$birthday = filter_input(INPUT_POST, "birthday", FILTER_SANITIZE_STRING);
-				$residence = filter_input(INPUT_POST, "residence", FILTER_SANITIZE_STRING);
-				// @todo insert new person
-				echo "Inserting new $name, $gender, $birthday, $residence";
-			} else if(substr($action, 0, 6) == "delete") {
-				$id = substr($action, 6, strlen($action));
+		$action = filter_input( INPUT_POST, "action", FILTER_SANITIZE_STRING );
+		if ( ! empty( $action ) ) {
+			if ( $action == "insert" ) {
+				$this->insertPostData( $table );
+			} else if ( substr( $action, 0, 6 ) == "delete" ) {
+				$id = substr( $action, 6, strlen( $action ) );
 
-				$ret = $table->removeEntry($id);
-
-				if ($ret) {
-					$response = "Entry $id removed successfully";
-				} else {
-					$response = "Error removed entry $id";
-				}
-				echo "<div id='jubileeResponse'>$response</div><br/><br/>";
+				$this->removeRow( $table, $id );
 			}
 		}
 
 		echo $table->getStoredDataAsHTMLTableWithControls();
+	}
 
+	private function insertPostData( $table ) {
+		$name      = filter_input( INPUT_POST, "name", FILTER_SANITIZE_STRING );
+		$gender    = filter_input( INPUT_POST, "gender", FILTER_SANITIZE_STRING );
+		$birthday  = filter_input( INPUT_POST, "birthday", FILTER_SANITIZE_STRING );
+		$birthday  = date( "Y-m-d", strtotime( $birthday ) );
+		$residence = filter_input( INPUT_POST, "residence", FILTER_SANITIZE_STRING );
+
+		$ret = $table->insertEntry( $name, $gender, $birthday, $residence );
+
+		if ( $ret ) {
+			$response = "Entry inserted successfully";
+		} else {
+			$response = "Error inserting entry";
+		}
+		echo "<div id='jubileeResponse'>$response</div><br/><br/>";
+	}
+
+	private function removeRow( $table, $id ) {
+		$ret = $table->removeEntry( $id );
+
+		if ( $ret ) {
+			$response = "Entry $id removed successfully";
+		} else {
+			$response = "Error removed entry $id";
+		}
+		echo "<div id='jubileeResponse'>$response</div><br/><br/>";
 	}
 
 }
