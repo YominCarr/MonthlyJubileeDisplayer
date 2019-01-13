@@ -90,7 +90,7 @@ class MjdTable {
 	}
 
 	public function getBirthdayHTML() {
-		$data = $this->plainSelectAllDataForCurrentMonth();
+		$data = $this->plainSelectAllDataWithSelector();
 		$html = "";
 
 		foreach ($data as $dataRow) {
@@ -100,9 +100,7 @@ class MjdTable {
 		return $html;
 	}
 
-	// @todo birthdays selected in the future have a year to small by one because it is rounding down
-	// @todo select only day for birthday
-	private function plainSelectAllDataForCurrentMonth() {
+	private function plainSelectAllDataWithSelector() {
 		global $wpdb;
 
 		$options = get_option('jubilee_options');
