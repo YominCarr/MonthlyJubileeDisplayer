@@ -110,7 +110,7 @@ class MjdTable {
 		}
 		$date_format = $options['date_format'];
 		if ( empty( $date_format ) ) {
-			$date_format = "%Y-&m-%d";
+			$date_format = "%Y-%m-%d";
 		}
 
 		$sql = "SELECT name,
