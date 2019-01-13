@@ -127,7 +127,7 @@ class Mjd_Admin {
 			}
 		}
 
-		echo $table->getStoredDataAsHTMLTableWithControls();
+		echo "<br>" . $table->getStoredDataAsHTMLTableWithControls();
 	}
 
 	private function insertPostData( $table ) {
