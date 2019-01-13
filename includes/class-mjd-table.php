@@ -2,7 +2,7 @@
 
 class MjdTable {
 
-	public function getTableName() {
+	private function getTableName() {
 		global $wpdb;
 
 		return $wpdb->prefix . "mjd_entries";
