@@ -108,10 +108,14 @@ class MjdTable {
 		if (empty($min_age)) {
 			$min_age = 0;
 		}
+		$date_format = $options['date_format'];
+		if (empty($date_format)) {
+			$date_format = "%Y-&m-%d";
+		}
 
 		$sql = "SELECT name,
 				gender,
-				birthday,
+				DATE_FORMAT(birthday, '$date_format') as birthday,
 				DAY(birthday) as day,
 				TIMESTAMPDIFF(YEAR, birthday, LAST_DAY(NOW())) AS age,
 				residence
@@ -151,10 +155,11 @@ class MjdTable {
 	}
 
 	public function getStoredDataAsHTMLTableWithControls() {
+		$data = $this->plainSelectStoredData();
+
 		$html = "<table id='jubileeAdminTable'>";
 		$html .= "<tr><th>Name</th><th>Gender</th><th>Birthday</th><th>Residence</th></tr>";
 
-		$data = $this->plainSelectStoredData();
 		foreach($data as $dataRow) {
 			$html .= "<tr id='" . $dataRow["id"] . "'>";
 			$html .= "<td>" . $dataRow["name"] . "</td>";
@@ -181,7 +186,18 @@ class MjdTable {
 	private function plainSelectStoredData() {
 		global $wpdb;
 
-		$sql = "SELECT * FROM " . $this->getTableName() . ";";
+		$options = get_option('jubilee_options');
+		$date_format = $options['date_format'];
+		if (empty($date_format)) {
+			$date_format = "%Y-&m-%d";
+		}
+
+		$sql = "SELECT id,
+				name,
+				gender,
+				DATE_FORMAT(birthday, '$date_format') as birthday,
+				residence
+				FROM " . $this->getTableName() . ";";
 
 		return $wpdb->get_results( $sql, ARRAY_A );
 	}

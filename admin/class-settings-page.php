@@ -67,6 +67,21 @@ class SettingsPage {
 		);
 
 		add_settings_section(
+			'setting_section_display',
+			'Display options',
+			array( $this, 'print_display_info' ),
+			'my-setting-admin'
+		);
+
+		add_settings_field(
+			'date_format',
+			'Date format',
+			array( $this, 'date_format_callback' ),
+			'my-setting-admin',
+			'setting_section_display'
+		);
+
+		add_settings_section(
 			'setting_section_text',
 			'Textblocks for display',
 			array( $this, 'print_textblock_info' ),
@@ -98,8 +113,13 @@ class SettingsPage {
 	public function sanitize( $input )
 	{
 		$new_input = array();
+
 		if( isset( $input['min_age'] ) ) {
 			$new_input['min_age'] = absint( $input['min_age'] );
+		}
+
+		if( isset( $input['date_format'] ) ) {
+			$new_input['date_format'] = sanitize_text_field( $input['date_format'] );
 		}
 
 		if( isset( $input['textblock_m'] ) ) {
@@ -117,6 +137,12 @@ class SettingsPage {
 		print 'These options configure which birthday entries are queried:';
 	}
 
+	public function print_display_info()
+	{
+		print 'These options configure the formatting of certain output elements.<br>
+               For date formatting codes see e.g. <a target="_blank" href="https://www.w3schools.com/sql/func_mysql_date_format.asp">here</a>:';
+	}
+
 	public function print_textblock_info()
 	{
 		print 'These options configure the textblocks which are output in the frontend for each jubilee.<br>
@@ -128,6 +154,14 @@ class SettingsPage {
 		printf(
 			'<input type="text" id="min_age" name="jubilee_options[min_age]" value="%s" />',
 			isset( $this->options['min_age'] ) ? esc_attr( $this->options['min_age']) : ''
+		);
+	}
+
+	public function date_format_callback()
+	{
+		printf(
+			'<input type="text" id="date_format" name="jubilee_options[date_format]" value="%s" />',
+			isset( $this->options['date_format'] ) ? esc_attr( $this->options['date_format']) : ''
 		);
 	}
 
