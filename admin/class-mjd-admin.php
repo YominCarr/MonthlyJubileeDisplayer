@@ -116,7 +116,7 @@ class Mjd_Admin {
 	public function create_admin_page() {
 		$table = new MjdTable();
 
-		echo $table->getStoredDataAsHTMLTable();
+		echo $table->getStoredDataAsHTMLTableWithControls();
 
 	}
 
