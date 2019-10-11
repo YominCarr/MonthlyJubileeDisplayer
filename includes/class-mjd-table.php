@@ -142,14 +142,14 @@ class MjdTable {
 		}
 
 		if ( empty( $textblock ) ) {
-			$textblock = 'Congratulations %name% from %residence% for turning %age% this month on the %birthday%!';
+			$textblock = 'Congratulations __name__ from __residence__ for turning __age__ this month on the __birthday__!';
 		}
 
-		$text = str_replace( "%name%", $name, $textblock );
-		$text = str_replace( "%age%", $age, $text );
-		$text = str_replace( "%birthday%", $birthday, $text );
-		$text = str_replace( "%day%", $day, $text );
-		$text = str_replace( "%residence%", $residence, $text );
+		$text = str_replace( "__name__", $name, $textblock );
+		$text = str_replace( "__age__", $age, $text );
+		$text = str_replace( "__birthday__", $birthday, $text );
+		$text = str_replace( "__day__", $day, $text );
+		$text = str_replace( "__residence__", $residence, $text );
 
 		return $text;
 	}
