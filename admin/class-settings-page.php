@@ -103,6 +103,14 @@ class SettingsPage {
 			'my-setting-admin',
 			'setting_section_text'
 		);
+
+		add_settings_field(
+			'textblock_alt',
+			'Text to display without jubilees',
+			array( $this, 'text_alt_callback' ),
+			'my-setting-admin',
+			'setting_section_text'
+		);
 	}
 
 	/**
@@ -125,8 +133,13 @@ class SettingsPage {
 		if( isset( $input['textblock_m'] ) ) {
 			$new_input['textblock_m'] = sanitize_text_field( $input['textblock_m'] );
 		}
+		
 		if( isset( $input['textblock_f'] ) ) {
 			$new_input['textblock_f'] = sanitize_text_field( $input['textblock_f'] );
+		}
+
+		if( isset( $input['textblock_alt'] ) ) {
+			$new_input['textblock_alt'] = sanitize_text_field( $input['textblock_alt'] );
 		}
 
 		return $new_input;
@@ -178,6 +191,14 @@ class SettingsPage {
 		printf(
 			'<textarea id="textblock_f" name="jubilee_options[textblock_f]" cols="150" rows="3">%s</textarea>',
 			isset( $this->options['textblock_f'] ) ? esc_attr( $this->options['textblock_f']) : ''
+		);
+	}
+
+	public function text_alt_callback()
+	{
+		printf(
+			'<textarea id="textblock_alt" name="jubilee_options[textblock_alt]" cols="150" rows="3">%s</textarea>',
+			isset( $this->options['textblock_alt'] ) ? esc_attr( $this->options['textblock_alt']) : ''
 		);
 	}
 
