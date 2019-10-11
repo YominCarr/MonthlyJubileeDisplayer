@@ -93,8 +93,12 @@ class MjdTable {
 		$data = $this->plainSelectAllDataWithSelector();
 		$html = "";
 
-		foreach ( $data as $dataRow ) {
-			$html .= $this->getBirthdayText( $dataRow ) . "<br>";
+		if (sizeof($data) == 0) {
+			$html .= $this->getNoJubileesText();
+		} else {
+			foreach ( $data as $dataRow ) {
+				$html .= $this->getBirthdayText( $dataRow ) . "<br>";
+			}
 		}
 
 		return $html;
@@ -152,6 +156,13 @@ class MjdTable {
 		$text = str_replace( "__residence__", $residence, $text );
 
 		return $text;
+	}
+
+	private function getNoJubileesText() {
+		$options = get_option( 'jubilee_options' );
+
+		$textblock = $options['textblock_alt'];
+		return $textblock;
 	}
 
 	public function getStoredDataAsHTMLTableWithControls() {
