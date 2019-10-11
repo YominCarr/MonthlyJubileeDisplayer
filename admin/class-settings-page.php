@@ -139,8 +139,9 @@ class SettingsPage {
 
 	public function print_display_info()
 	{
-		print 'These options configure the formatting of certain output elements.<br>
-               For date formatting codes see e.g. <a target="_blank" href="https://www.w3schools.com/sql/func_mysql_date_format.asp">here</a>:';
+		print 'These options configure the formatting of certain output elements.
+               For date formatting codes see e.g. <a target="_blank" href="https://www.w3schools.com/sql/func_mysql_date_format.asp">here</a>:<br>
+               For example this can be set to: %d.%m.%Y';
 	}
 
 	public function print_textblock_info()
