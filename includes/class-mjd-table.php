@@ -91,7 +91,7 @@ class MjdTable {
 
 	public function getBirthdayHTML() {
 		$data = $this->plainSelectAllDataWithSelector();
-		$html = "";
+		$html = $this->getHeaderText();
 
 		if (sizeof($data) == 0) {
 			$html .= $this->getNoJubileesText();
@@ -128,6 +128,22 @@ class MjdTable {
 				HAVING age > $min_age;";
 
 		return $wpdb->get_results( $sql, ARRAY_A );
+	}
+
+	private function getHeaderText() {
+		$options = get_option( 'jubilee_options' );
+		$currentMonthLocalized = date_i18n('F');
+
+		$textblock = $options['textblock_header'];
+
+		if ( empty( $textblock ) ) {
+			$textblock = 'Our jubilees in __currentMonth__';
+		}
+
+		$textblock = str_replace( "__currentMonth__", $currentMonthLocalized, $textblock );
+		$text = "<h3>" . $textblock . "</h3>";
+
+		return $text;
 	}
 
 	private function getBirthdayText( $dataRow ) {
