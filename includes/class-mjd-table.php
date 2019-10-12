@@ -132,7 +132,7 @@ class MjdTable {
 
 	private function getHeaderText() {
 		$options = get_option( 'jubilee_options' );
-		$currentMonth = date('F');
+		$currentMonthLocalized = date_i18n('F');
 
 		$textblock = $options['textblock_header'];
 
@@ -140,7 +140,7 @@ class MjdTable {
 			$textblock = 'Our jubilees in __currentMonth__';
 		}
 
-		$textblock = str_replace( "__currentMonth__", $currentMonth, $textblock );
+		$textblock = str_replace( "__currentMonth__", $currentMonthLocalized, $textblock );
 		$text = "<h3>" . $textblock . "</h3>";
 
 		return $text;
