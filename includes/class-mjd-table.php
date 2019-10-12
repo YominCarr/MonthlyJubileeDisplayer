@@ -114,12 +114,12 @@ class MjdTable {
 		}
 		$date_format = $options['date_format'];
 		if ( empty( $date_format ) ) {
-			$date_format = "%Y-%m-%d";
+			$date_format = "Y-m-d";
 		}
 
 		$sql = "SELECT name,
 				gender,
-				DATE_FORMAT(birthday, '$date_format') as birthday,
+				birthday,
 				DAY(birthday) as day,
 				TIMESTAMPDIFF(YEAR, birthday, LAST_DAY(NOW())) AS age,
 				residence
@@ -127,7 +127,10 @@ class MjdTable {
  				WHERE MONTH(birthday) = MONTH(NOW())
 				HAVING age > $min_age;";
 
-		return $wpdb->get_results( $sql, ARRAY_A );
+		$results = $wpdb->get_results( $sql, ARRAY_A );
+		$results = $this->localizeBirthdayInSQLResult( $results, $date_format );
+
+		return $results;
 	}
 
 	private function getHeaderText() {
@@ -217,17 +220,19 @@ class MjdTable {
 		$options     = get_option( 'jubilee_options' );
 		$date_format = $options['date_format'];
 		if ( empty( $date_format ) ) {
-			$date_format = "%Y-&m-%d";
+			$date_format = "Y-m-d";
 		}
 
 		$sql = "SELECT id,
 				name,
 				gender,
-				DATE_FORMAT(birthday, '$date_format') as birthday,
+				birthday,
 				residence
 				FROM " . $this->getTableName() . ";";
 
-		return $wpdb->get_results( $sql, ARRAY_A );
+		$results = $wpdb->get_results( $sql, ARRAY_A );
+		$results = $this->localizeBirthdayInSQLResult( $results, $date_format );
+		return $results;
 	}
 
 	public function insertEntry( $name, $gender, $birthday, $residence ) {
@@ -242,6 +247,13 @@ class MjdTable {
 		global $wpdb;
 
 		return $wpdb->delete( $this->getTableName(), array( 'id' => $id ), array( '%d' ) );
+	}
+
+	private function localizeBirthdayInSQLResult( $results, $date_format ) {
+		foreach ( $results as &$result ) {
+			$result['birthday'] = date_i18n( $date_format, strtotime( $result['birthday'] ) );
+		}
+		return $results;
 	}
 
 }
