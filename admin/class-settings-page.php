@@ -89,6 +89,14 @@ class SettingsPage {
 		);
 
 		add_settings_field(
+			'textblock_header',
+			'Text to display as header',
+			array( $this, 'text_header_callback' ),
+			'my-setting-admin',
+			'setting_section_text'
+		);
+
+		add_settings_field(
 			'textblock_m',
 			'Text to display for male',
 			array( $this, 'text_m_callback' ),
@@ -130,6 +138,10 @@ class SettingsPage {
 			$new_input['date_format'] = sanitize_text_field( $input['date_format'] );
 		}
 
+		if( isset( $input['textblock_header'] ) ) {
+			$new_input['textblock_header'] = sanitize_text_field( $input['textblock_header'] );
+		}
+
 		if( isset( $input['textblock_m'] ) ) {
 			$new_input['textblock_m'] = sanitize_text_field( $input['textblock_m'] );
 		}
@@ -160,7 +172,9 @@ class SettingsPage {
 	public function print_textblock_info()
 	{
 		print 'These options configure the textblocks which are output in the frontend for each jubilee.<br>
-			   Following identifiers are replaced by their according values: __name__, __birthday__, __day__, __age__, __residence__:';
+			   Following identifiers are replaced by their according values:
+			   For the header: __currentMonth__
+			   For each entry: __name__, __birthday__, __day__, __age__, __residence__';
 	}
 
 	public function min_age_callback()
@@ -179,6 +193,14 @@ class SettingsPage {
 		);
 	}
 
+	public function text_header_callback()
+	{
+		printf(
+			'<textarea id="textblock_header" name="jubilee_options[textblock_header]" cols="150" rows="3">%s</textarea>',
+			isset( $this->options['textblock_header'] ) ? esc_attr( $this->options['textblock_header']) : ''
+		);
+	}
+
 	public function text_m_callback()
 	{
 		printf(
@@ -186,7 +208,7 @@ class SettingsPage {
 			isset( $this->options['textblock_m'] ) ? esc_attr( $this->options['textblock_m']) : ''
 		);
 	}
-	
+
 	public function text_f_callback()
 	{
 		printf(
